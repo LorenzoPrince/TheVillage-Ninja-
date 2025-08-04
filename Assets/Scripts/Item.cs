@@ -36,6 +36,10 @@ public class Item : MonoBehaviour
 
     public virtual void Collect(Player jugador)
     {
+        jugador.Inventario.Add(this); // Agrega al inventario real del jugador
+        Debug.Log($"{Nombre} recolectado por {jugador.name}");
 
+
+        gameObject.SetActive(false);
     }
 }

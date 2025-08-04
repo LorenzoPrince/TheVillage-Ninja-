@@ -11,7 +11,7 @@ public class Villager : MonoBehaviour, IInteractuable
     private int dialogoIndex = 0;
     private bool dialogoActivo = false;
 
-    public static event Action OnDialogoIniciado;
+    public static event Action OnDialogoIniciado; //aca se comunicara el evento.
     public static event Action OnDialogoTerminado;
 
 
