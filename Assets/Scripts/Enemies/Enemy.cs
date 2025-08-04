@@ -60,6 +60,7 @@ public class Enemy : CombatEntity //hereda de la clase padre.
 
     private void Perseguir()
     {
+        Debug.Log("Peseguiendo al jugador");
         Vector2 direccion = _jugador.position - transform.position;
         Mover(direccion, _velocidad); //uso el metodo heredado
 

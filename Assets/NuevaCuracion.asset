@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c770fce1ebe2c48b00968353997ad0, type: 3}
   m_Name: NuevaCuracion
   m_EditorClassIdentifier: 
-  nombre: 
-  descripcion: 
+  nombre: "Curaci\xF3n"
+  descripcion: Recupera 20 de vida
   duracion: 0
-  nivelRequerido: 0
+  nivelRequerido: 1
   cantidadCuracion: 20
