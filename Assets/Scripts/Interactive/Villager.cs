@@ -6,7 +6,7 @@ public class Villager : MonoBehaviour, IInteractuable
     [SerializeField, TextArea(3, 10)] private string[] dialogos;  //creamos array con todos los texto que le voy a poner tambien el text sirve para que podamos poner de una el texto en la array
     [SerializeField] private UIManager uiManager;
     [SerializeField] private TMP_Text pressEText;
-
+    private bool esperarUnFrame = false; //evito mismo input en un frame
 
     private int dialogoIndex = 0;
     private bool dialogoActivo = false;
@@ -40,15 +40,23 @@ public class Villager : MonoBehaviour, IInteractuable
                 Interactuar(jugador);
             }
         }
-        else
+        else if (!dialogoActivo)
         {
             pressEText.gameObject.SetActive(false);
         }
 
         if (dialogoActivo && Input.GetKeyDown(KeyCode.E))
         {
-            MostrarSiguienteDialogo();
+            if (esperarUnFrame)
+            {
+                esperarUnFrame = false; // salta este frame
+            }
+            else
+            {
+                MostrarSiguienteDialogo();
+            }
         }
+
     }
 
     public void Interactuar(Player jugador)
@@ -58,7 +66,7 @@ public class Villager : MonoBehaviour, IInteractuable
         jugadorRb.constraints = RigidbodyConstraints2D.FreezeAll;
         uiManager.ActivarCajaDialogo(true);
         OnDialogoIniciado?.Invoke();
-
+        esperarUnFrame = true;
         MostrarSiguienteDialogo();
     }
 

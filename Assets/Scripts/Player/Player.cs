@@ -1,13 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic; //para las listas
-public class Player : MonoBehaviour, IDamageable // implemento interface para asegurar que tenga el metodo recibir daño
+public class Player : MonoBehaviour, IDamageable // implemento interface para asegurar que tenga el metodo recibir daÃ±o
 {
     private int _vida = 100; // el guion bajo se usa para decir que la variable es interna a la clase, y no se debe cambiar desde fuera.
     private float _velocidad = 5f;
     private int _totalMonedas = 0;
     private Vector2 _posicionActual;
     private bool _vivo = true;
-
+    private Rigidbody2D _rb;
     public bool EsInvulnerable { get; set; } = false;
     public int Vida
     {
@@ -51,6 +51,10 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     {
         get { return _vivo; }
     }
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Update()
     {
@@ -61,15 +65,23 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     public void Mover(Vector2 direccion)
     {
         if (!_vivo) return;
-        transform.Translate(direccion * _velocidad * Time.deltaTime);
-        PosicionActual = new Vector2(transform.position.x, transform.position.y);
+        _rb.linearVelocity = direccion.normalized * _velocidad;
+        PosicionActual = _rb.position; 
+
+        if (direccion != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(direccion.y, direccion.x) * Mathf.Rad2Deg;
+            float offset = 90f;
+            transform.rotation = Quaternion.Euler(0, 0, angle + offset);
+        }
     }
-    public void RecibirDaño(int cantidad) //cumplo con la interface
+    public void RecibirDaÃ±o(int cantidad) //cumplo con la interface
     {
         if (!_vivo || EsInvulnerable)
             return;
 
         Vida -= cantidad;
+
     }
     public void Morir()
     {
@@ -119,7 +131,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
         }
         else
         {
-            Debug.Log("No tenés esa habilidad desbloqueada.");
+            Debug.Log("No tenÃ©s esa habilidad desbloqueada.");
         }
     }
 
