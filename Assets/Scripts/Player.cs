@@ -7,6 +7,8 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     private int _totalMonedas = 0;
     private Vector2 _posicionActual;
     private bool _vivo = true;
+
+    public bool EsInvulnerable { get; set; } = false;
     public int Vida
     {
         get => _vida;  // aplicamos getters y setters para proteger la integridad de las clases y que se modifiquen por dentro de la clase. 
@@ -64,8 +66,9 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     }
     public void RecibirDaño(int cantidad) //cumplo con la interface
     {
-        if (!_vivo) 
+        if (!_vivo || EsInvulnerable)
             return;
+
         Vida -= cantidad;
     }
     public void Morir()
