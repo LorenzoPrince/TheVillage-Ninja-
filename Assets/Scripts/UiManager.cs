@@ -1,16 +1,18 @@
 using UnityEngine;
-
-public class UiManager : MonoBehaviour
+using TMPro;
+using UnityEngine.UI;
+public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject cajaDialogo;
+    [SerializeField] private TMP_Text textoDialogo;
+
+    public void ActivarCajaDialogo(bool activar)
     {
-        
+        cajaDialogo.SetActive(activar);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void MostrarTexto(string texto)
     {
-        
+        textoDialogo.text = texto;
     }
 }

@@ -12,5 +12,6 @@ public abstract class Ability : ScriptableObject //lo utilizo para crear datos
     public float Duracion => duracion;
     public int NivelRequerido => nivelRequerido;
 
+
     public abstract void Activar(Player jugador);
 }
