@@ -98,4 +98,31 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
             Inventario.Remove(item);
         }
     }
+    public void DesbloquearHabilidad(Ability habilidad) //aca desbloquea la habilidad.
+    {
+        if (!HabilidadesDesbloqueadas.Contains(habilidad))
+        {
+            HabilidadesDesbloqueadas.Add(habilidad);
+            Debug.Log($"Habilidad desbloqueada: {habilidad.Nombre}");
+        }
+    }
+
+    public void UsarHabilidad(string nombre)
+    {
+        Ability habilidad = HabilidadesDesbloqueadas.Find(h => h.Nombre == nombre);
+        if (habilidad != null)
+        {
+            habilidad.Activar(this);
+        }
+        else
+        {
+            Debug.Log("No tenés esa habilidad desbloqueada.");
+        }
+    }
+
+    public void Curar(int cantidad)
+    {
+        _vida += cantidad;
+        Debug.Log($"Jugador curado por {cantidad}. Vida actual: {_vida}");
+    }
 }
