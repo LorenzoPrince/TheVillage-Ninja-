@@ -160,4 +160,12 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
         Vida += cantidad;
         Debug.Log($"Jugador curado por {cantidad}. Vida actual: {_vida}");
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Item item = other.GetComponent<Item>();
+        if (item != null)
+        {
+            item.Collect(this); // esto hace que el objeto se use automáticamente
+        }
+    }
 }

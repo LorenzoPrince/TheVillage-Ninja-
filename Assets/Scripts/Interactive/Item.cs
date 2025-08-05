@@ -31,15 +31,11 @@ public class Item : MonoBehaviour
 
     public virtual void Usar(Player jugador)
     {
-
+        Debug.Log($"{Nombre} usado por {jugador.name}");
     }
 
     public virtual void Collect(Player jugador)
     {
-        jugador.Inventario.Add(this); // Agrega al inventario real del jugador
-        Debug.Log($"{Nombre} recolectado por {jugador.name}");
-
-
-        gameObject.SetActive(false);
+        Usar(jugador);
     }
 }
