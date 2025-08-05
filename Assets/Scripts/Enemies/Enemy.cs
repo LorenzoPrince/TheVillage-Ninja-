@@ -14,6 +14,7 @@ public class Enemy : CombatEntity //hereda de la clase padre.
     [SerializeField] private float _rangoAtaque = 2f;
     [SerializeField] private float _velocidad = 2f;
 
+    private int daño = 5;
     private MaquinaEstadoEnemigos _estadoActual = MaquinaEstadoEnemigos.Idle;
 
     private Transform _jugador;
@@ -74,9 +75,22 @@ public class Enemy : CombatEntity //hereda de la clase padre.
 
     private void Atacar()
     {
-        Debug.Log("Atacando al jugador...");
-        // Acá podrías llamar a _habilidadEspecial.Activar(...) o algo similar
-        Invoke(nameof(FinalizarAtaque), 1.5f);
+        {
+            Debug.Log("Atacando al jugador...");
+
+            if (_jugador != null)
+            {
+                Player jugadorScript = _jugador.GetComponent<Player>();
+                if (jugadorScript != null)
+                {
+                    // el daño que se aplicara
+                    jugadorScript.RecibirDaño(daño);
+                    Debug.Log($"Daño infligido al jugador: {daño}");
+                }
+            }
+
+            Invoke(nameof(FinalizarAtaque), 1.5f);
+        }
     }
 
     private void Morir()

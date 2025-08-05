@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic; //para las listas
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour, IDamageable // implemento interface para asegurar que tenga el metodo recibir daño
 {
     private int _vida = 100; // el guion bajo se usa para decir que la variable es interna a la clase, y no se debe cambiar desde fuera.
@@ -8,6 +9,14 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     private Vector2 _posicionActual;
     private bool _vivo = true;
     private Rigidbody2D _rb;
+
+
+    [Header("Ataque")]
+    [SerializeField] private float rangoAtaque = 1.5f;
+    [SerializeField] private int dañoAtaque = 10;
+    [SerializeField] private LayerMask capaEnemigos; //hago un layer
+    [SerializeField] private Transform puntoAtaque;
+
     public bool EsInvulnerable { get; set; } = false;
     public int Vida
     {
@@ -74,6 +83,10 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
                 Debug.Log("No tenés la habilidad de curación desbloqueada.");
             }
         }
+        if (Input.GetMouseButtonDown(0)) // clic derecho
+        {
+            Atacar();
+        }
     }
 
     public void Mover(Vector2 direccion)
@@ -101,10 +114,21 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     {
         _vivo = false;
         // recordar implmentar que se reinicie escena o algo
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // recarga la escena actual
     }
     public void Atacar()
     {
-
+        Collider2D[] enemigos = Physics2D.OverlapCircleAll(puntoAtaque.position, rangoAtaque, capaEnemigos);
+        //busca todos los colliders en un circulo
+        foreach (Collider2D col in enemigos) // Recorre cada collider encontrados
+        {
+            IDamageable damageable = col.GetComponent<IDamageable>(); //intenta obtener el componente IDamagle
+            if (damageable != null) //si existe significa que puede agarrar daño
+            {
+                damageable.RecibirDaño(dañoAtaque); // llama al metodo para que reciba daño
+                Debug.Log("Le pegaste a " + col.name);
+            }
+        }
     }
     public void AgarrarMoneda()
     {
@@ -166,6 +190,15 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
         if (item != null)
         {
             item.Collect(this); // esto hace que el objeto se use automáticamente
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (puntoAtaque != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(puntoAtaque.position, rangoAtaque);
         }
     }
 }

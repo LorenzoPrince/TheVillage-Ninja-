@@ -18,7 +18,7 @@ public abstract class CombatEntity : MonoBehaviour,IDamageable //esto permite qu
 
         _vidaActual -= cantidad;
         _vidaActual = Mathf.Max(0, _vidaActual); // que sea preciso el numero y no haya errores
-
+        Debug.Log($"Vida bajó en {cantidad}. Vida actual: {Vida}");
         if (_vidaActual == 0) 
             Morir();
     }
