@@ -3,20 +3,27 @@ using TMPro;
 using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
+    [Header("UI de Monedas")]
+    [SerializeField] private TMP_Text textoMonedas;
+
+    [Header("UI de Vida")]
+    [SerializeField] private Slider barraVida;
+    [SerializeField] private int vidaMaxima = 100;
+
     [Header("UI de Diálogo")]
     [SerializeField] private GameObject cajaDialogo;
     [SerializeField] private TMP_Text textoDialogo;
-
+ 
     private void OnEnable()
     {
-        GameEvents.OnMonedaRecogida += MostrarMonedas;
+        GameEvents.OnMonedaRecogida += MostrarMonedas; //se suscribe al evento
         GameEvents.OnVidaCambiada += MostrarVida;
         GameEvents.OnHabilidadDesbloqueada += MostrarHabilidad;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnMonedaRecogida -= MostrarMonedas;
+        GameEvents.OnMonedaRecogida -= MostrarMonedas; //se desuscribe
         GameEvents.OnVidaCambiada -= MostrarVida;
         GameEvents.OnHabilidadDesbloqueada -= MostrarHabilidad;
     }
@@ -36,12 +43,16 @@ public class UIManager : MonoBehaviour
 
     private void MostrarMonedas(int total)
     {
-        Debug.Log($"Monedas: {total}");
+        textoMonedas.text = $"Monedas: {total}";
 
     }
 
     private void MostrarVida(int vida)
     {
+        if (barraVida != null)
+        {
+            barraVida.value = (float)vida / vidaMaxima;
+        }
         Debug.Log($"Vida actual: {vida}");
 
     }

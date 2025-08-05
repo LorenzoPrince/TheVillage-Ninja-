@@ -65,7 +65,11 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     {
         _rb = GetComponent<Rigidbody2D>();
     }
-
+    void Start()
+    {
+        GameEvents.OnVidaCambiada?.Invoke(Vida); //para que el slider comience al 100
+        GameEvents.OnMonedaRecogida?.Invoke(TotalMonedas);
+    }
     private void Update()
     {
         Vector2 direccion = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));

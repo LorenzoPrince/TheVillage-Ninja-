@@ -12,6 +12,6 @@ public class Coin : Item
     public override void Collect(Player jugador)
     {
         base.Collect(jugador);
-        Usar(jugador); // Se usa al ser recolectada
+
     }
 }
