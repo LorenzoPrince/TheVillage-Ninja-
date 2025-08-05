@@ -11,10 +11,12 @@ public class Enemy : CombatEntity //hereda de la clase padre.
     }
 
     [SerializeField] private float _rangoDeteccion = 5f; 
-    [SerializeField] private float _rangoAtaque = 2f;
+    [SerializeField] private float _rangoAtaque = 3f;
     [SerializeField] private float _velocidad = 2f;
+    [SerializeField] private float tiempoEntreAtaques = 1.5f;
+    private float _proximoAtaque = 0f;
 
-    private int daño = 5;
+    private int daño = 10;
     private MaquinaEstadoEnemigos _estadoActual = MaquinaEstadoEnemigos.Idle;
 
     private Transform _jugador;
@@ -75,22 +77,19 @@ public class Enemy : CombatEntity //hereda de la clase padre.
 
     private void Atacar()
     {
+        if (_jugador != null && Time.time >= _proximoAtaque) //Arreglo bug de ataque rapido por frame
         {
-            Debug.Log("Atacando al jugador...");
-
-            if (_jugador != null)
+            Player jugadorScript = _jugador.GetComponent<Player>();
+            if (jugadorScript != null)
             {
-                Player jugadorScript = _jugador.GetComponent<Player>();
-                if (jugadorScript != null)
-                {
-                    // el daño que se aplicara
-                    jugadorScript.RecibirDaño(daño);
-                    Debug.Log($"Daño infligido al jugador: {daño}");
-                }
-            }
+                jugadorScript.RecibirDaño(daño);
+                Debug.Log($"Daño infligido al jugador: {daño}");
 
-            Invoke(nameof(FinalizarAtaque), 1.5f);
+                _proximoAtaque = Time.time + tiempoEntreAtaques; // espera al próximo ataque
+            }
         }
+
+        Invoke(nameof(FinalizarAtaque), 0.5f);
     }
 
     private void Morir()

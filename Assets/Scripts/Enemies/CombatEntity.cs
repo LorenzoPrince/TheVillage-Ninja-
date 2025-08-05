@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class CombatEntity : MonoBehaviour,IDamageable //esto permite que sea un molde en el cual se basaran los otros enemigos.
 {
-    [SerializeField] private int _vidaMaxima = 100;
+    [SerializeField] protected int _vidaMaxima = 100; //hace que los hijos puedan cambiar la vida
     private int _vidaActual;
     private bool _vivo = true;
 
