@@ -39,15 +39,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
                 _velocidad = value;
         }
     }
-    public int TotalMonedas
-    {
-        get => _totalMonedas; // ver que tengo
-        private set // con set puedo cambiar la variable solo dentro de esta clase.
-        {
-            if (value >= 0)
-                _totalMonedas = value;
-        }
-    }
+
     public Vector2 PosicionActual
     {
         get => _posicionActual;
@@ -67,8 +59,9 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     }
     void Start()
     {
+ 
         GameEvents.OnVidaCambiada?.Invoke(Vida); //para que el slider comience al 100
-        GameEvents.OnMonedaRecogida?.Invoke(TotalMonedas);
+        GameEvents.OnMonedaRecogida?.Invoke(Manager.Instance.TotalMonedas);
     }
     private void Update()
     {
@@ -118,6 +111,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     {
         _vivo = false;
         // recordar implmentar que se reinicie escena o algo
+        Manager.Instance.TotalMonedas = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // recarga la escena actual
     }
     public void Atacar()
@@ -136,8 +130,8 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     }
     public void AgarrarMoneda()
     {
-        TotalMonedas++;
-        GameEvents.OnMonedaRecogida?.Invoke(TotalMonedas); // mando el evento al game event.
+        Manager.Instance.TotalMonedas++;
+        GameEvents.OnMonedaRecogida?.Invoke(Manager.Instance.TotalMonedas); // mando el evento al game event.
         //sumo moneda. Dps ver si una moneda vale mas o algo. 
     }
     public void AgarrarItem(Item item)
