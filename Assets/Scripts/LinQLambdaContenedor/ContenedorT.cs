@@ -12,7 +12,28 @@ public class Contenedor<T> //Clase generica para manejar listas de cualquier tip
 
     public List<T> ObtenerTodos() => _elementos; //da todos los elementos de una lista
 
-    public List<T> Filtrar(System.Func<T, bool> predicado) => _elementos.Where(predicado).ToList(); //filtra elemento segun algo y devuelve bool
+    public List<T> Filtrar(System.Func<T, bool> predicado)
+    {
+        // Previene errores por objetos destruidos
+        return _elementos
+            .Where(e => e != null && !e.Equals(null) && predicado(e))
+            .ToList();
+    }
 
-    public List<T> OrdenarPor(System.Func<T, float> criterio) => _elementos.OrderBy(criterio).ToList(); //ordena segun criteio devuelve float
+    public List<T> OrdenarPor(System.Func<T, float> criterio)
+    {
+        // También evita errores al ordenar
+        return _elementos
+            .Where(e => e != null && !e.Equals(null))
+            .OrderBy(criterio)
+            .ToList();
+    }
+
+    //  Limpia todos los elementos destruidos
+    public void LimpiarElementosDestruidos()
+    {
+        _elementos = _elementos
+            .Where(e => e != null && !e.Equals(null))
+            .ToList();
+    }
 }

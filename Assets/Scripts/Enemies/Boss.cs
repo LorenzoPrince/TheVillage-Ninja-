@@ -166,20 +166,20 @@ public class Boss : CombatEntity //hereda de la clase abstract
 
         if (porcentaje <= 0.25f && faseActual < 4) //verifica si seguir o no en la fase
         {
-            Debug.Log("? Fase 4 activada");
+            Debug.Log("Fase 4 activada");
             estadoActual = EstadoBoss.Fase4;
             faseActual = 4;
         }
         else if (porcentaje <= 0.5f && estadoActual != EstadoBoss.Fase3 && estadoActual != EstadoBoss.Fase4)
         {
-            Debug.Log("? Fase 3 activada");
+            Debug.Log("Fase 3 activada");
             estadoActual = EstadoBoss.Fase3;
             faseActual = 3;
 
         }
         else if (porcentaje <= 0.75f && estadoActual != EstadoBoss.Fase2 && estadoActual != EstadoBoss.Fase3 && estadoActual != EstadoBoss.Fase4)
         {
-            Debug.Log("? Fase 2 activada");
+            Debug.Log("Fase 2 activada");
             estadoActual = EstadoBoss.Fase2;
             faseActual = 2;
         }
@@ -187,7 +187,7 @@ public class Boss : CombatEntity //hereda de la clase abstract
 
     public override void Morir()
     {
-        Debug.Log("?? Boss derrotado.");
+        Debug.Log("Boss derrotado.");
         base.Morir();
     }
     private void OnCollisionEnter2D(Collision2D collision)
