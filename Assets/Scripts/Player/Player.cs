@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     [Header("Ataque")]
     [SerializeField] private float rangoAtaque = 1.5f;
     [SerializeField] private int dañoAtaque = 10;
-    [SerializeField] private LayerMask capaEnemigos; //hago un layer
+    [SerializeField] private LayerMask capaEnemigos; //hago un layer importante para que yo solo reciba la collision
     [SerializeField] private Transform puntoAtaque;
 
     public bool EsInvulnerable { get; set; } = false;
