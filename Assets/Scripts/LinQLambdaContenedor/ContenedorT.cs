@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections.Generic;
+using System.Linq;
 public class Contenedor<T> //Clase generica para manejar listas de cualquier tipo t
                             //la vamos a usar para coin dps
 {
