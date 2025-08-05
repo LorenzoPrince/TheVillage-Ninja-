@@ -4,7 +4,7 @@ public class Item : MonoBehaviour
 {
     private string _nombre;
     private string _tipo;
-    private int _valor;
+    private int _valor = 15;
 
     public string Nombre
     {
