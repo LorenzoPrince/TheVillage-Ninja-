@@ -8,6 +8,9 @@ public class Villager : MonoBehaviour, IInteractuable
     [SerializeField] private TMP_Text pressEText;
     private bool esperarUnFrame = false; //evito mismo input en un frame
 
+    [SerializeField] private Ability habilidadParaDar; // habilidad que da este aldeano un scritable object
+    private bool habilidadEntregada = false;
+
     private int dialogoIndex = 0;
     private bool dialogoActivo = false;
 
@@ -66,6 +69,7 @@ public class Villager : MonoBehaviour, IInteractuable
         jugadorRb.constraints = RigidbodyConstraints2D.FreezeAll;
         uiManager.ActivarCajaDialogo(true);
         OnDialogoIniciado?.Invoke();
+
         esperarUnFrame = true;
         MostrarSiguienteDialogo();
     }
@@ -90,6 +94,12 @@ public class Villager : MonoBehaviour, IInteractuable
         uiManager.ActivarCajaDialogo(false);
         jugadorRb.constraints = RigidbodyConstraints2D.FreezeRotation;
         OnDialogoTerminado?.Invoke();
+
+        if (habilidadParaDar != null && !habilidadEntregada) // entregamos habilidad si el aldeano da habilidad
+        {
+            jugador.DesbloquearHabilidad(habilidadParaDar);
+            habilidadEntregada = true; // para que no se repita cuando abra de nuevo
+        }
     }
 }
 

@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
         private set
         {
             _vida = Mathf.Clamp(value, 0, 100); // evitamos valores invalidos. 
+            GameEvents.OnVidaCambiada?.Invoke(_vida);
             if (_vida == 0)
                 Morir();
         }
@@ -60,6 +61,19 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     {
         Vector2 direccion = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         Mover(direccion);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+           
+            if (HabilidadesDesbloqueadas.Exists(h => h.Nombre == "Curacion")) // si tengo la habilidad desbloqueada la usa 
+            {
+                UsarHabilidad("Curacion");
+            }
+            else
+            {
+                Debug.Log("No tenés la habilidad de curación desbloqueada.");
+            }
+        }
     }
 
     public void Mover(Vector2 direccion)
@@ -95,7 +109,8 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
     public void AgarrarMoneda()
     {
         TotalMonedas++;
-       //sumo moneda. Dps ver si una moneda vale mas o algo. 
+        GameEvents.OnMonedaRecogida?.Invoke(TotalMonedas); // mando el evento al game event.
+        //sumo moneda. Dps ver si una moneda vale mas o algo. 
     }
     public void AgarrarItem(Item item)
     {
@@ -118,7 +133,12 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
         if (!HabilidadesDesbloqueadas.Contains(habilidad))
         {
             HabilidadesDesbloqueadas.Add(habilidad);
+            GameEvents.OnHabilidadDesbloqueada?.Invoke(habilidad);
             Debug.Log($"Habilidad desbloqueada: {habilidad.Nombre}");
+        }
+        else
+        {
+            Debug.Log($"Ya tenés desbloqueada la habilidad: {habilidad.Nombre}");
         }
     }
 
@@ -137,7 +157,7 @@ public class Player : MonoBehaviour, IDamageable // implemento interface para as
 
     public void Curar(int cantidad)
     {
-        _vida += cantidad;
+        Vida += cantidad;
         Debug.Log($"Jugador curado por {cantidad}. Vida actual: {_vida}");
     }
 }
